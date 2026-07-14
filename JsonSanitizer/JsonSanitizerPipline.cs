@@ -14,28 +14,21 @@ namespace DroneFleetDataProcessing.JsonSanitizer
             Console.WriteLine($"path is {filePath}");
             validate.FileIsExist(filePath);
 
+            try
+            {
+                string back = File.ReadAllText(filePath);
+                validate.FileIsEmpty(back);
+                validate.FileIsNull(back);
+                Console.WriteLine(back);
+            }
+            catch
+            {
+                validate.NoPermissionReade();
+            }
 
-            string back = File.ReadAllText(filePath);
-            validate.FileIsEmpty(back);
-            validate.FileIsNull(back);
-            Console.WriteLine(back);
-            //    if (File.Exists(filePath))
-            //    {
-            //        Console.WriteLine("=== tochen file ===");
-            //        string back = File.ReadAllText(filePath);
-            //Console.WriteLine(back);
-            //    }
-            //    else
-            //    {
-            //        Console.WriteLine("file not exist");
-            //        Console.WriteLine("\n===is exist ===");
-            //        string[] files = Directory.GetFiles(baseDir);
-            //        foreach (var file in files)
-            //        {
-            //            Console.WriteLine(Path.GetFileName(file));
-            //        }
-
-            //    }
+           
+           
+            
         }
     }
 }

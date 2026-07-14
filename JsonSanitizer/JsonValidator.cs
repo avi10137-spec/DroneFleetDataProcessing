@@ -33,5 +33,14 @@ namespace DroneFleetDataProcessing.JsonSanitizer
                 throw new FileExption("json file is null");
             }
         }
+        public void NoPermissionReade()
+        {
+            throw new FileExption("no permission to read file");
+        }
+        public void NoPermissionWrite()
+        {
+            throw new FileExption("no permission to write");
+        }
+
     }
 }
