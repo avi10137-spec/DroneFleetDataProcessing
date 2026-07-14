@@ -18,7 +18,7 @@ public class CustomeException : Exception//Custom error class
     {
     }
 }
-class isIntAndPositive: IFieldsValidator
+class isIntAndPositive: IFieldsValidator//Check if the number is integer and positive
 {
     public void RegularValidator(string field)
     {
@@ -32,7 +32,7 @@ class isIntAndPositive: IFieldsValidator
         }
     }
 }
-class isUnique: IFieldsUniqueValidator
+class isUnique: IFieldsUniqueValidator//Check if the value is unique
 {
     public void UniqueValidator(string field, List<string> strings)
     {
@@ -42,7 +42,7 @@ class isUnique: IFieldsUniqueValidator
         }
     }
 }
-class EmptyOrSpaces: IFieldsValidator
+class EmptyOrSpaces: IFieldsValidator//Check if the value is not empty
 {
     public void RegularValidator(string field)
     {
@@ -52,7 +52,7 @@ class EmptyOrSpaces: IFieldsValidator
         }
     }
 }
-class serialNumberFormat: IFieldsValidator
+class serialNumberFormat: IFieldsValidator//Check if the value is in format
 {
     public void RegularValidator(string field)
     {
@@ -67,7 +67,7 @@ class serialNumberFormat: IFieldsValidator
         }
     }
 }
-class isAertainWord : IFieldsUniqueValidator
+class isAertainWord : IFieldsUniqueValidator//Check for a valid value
 {
     public void UniqueValidator(string field, List<string> strings)
     {
@@ -77,7 +77,7 @@ class isAertainWord : IFieldsUniqueValidator
         }
     }
 }
-class isertainRange: IFieldsCertainRangeValidator
+class isertainRange: IFieldsCertainRangeValidator//Check for the number is double and in a certain range
 {
     public void ertainRangeValidator(string field, double min, double max)
     {
@@ -95,7 +95,7 @@ class isertainRange: IFieldsCertainRangeValidator
         }
     }
 }
-class smallBatteryHealth
+class smallBatteryHealth//Check for low battery health status
 {
     public void ValidsmallBatteryHealth(string batteryHealth, string status)
     {
