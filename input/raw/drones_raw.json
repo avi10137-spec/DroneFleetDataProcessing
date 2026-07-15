@@ -133,7 +133,7 @@
   },
   {
     "id": 48,
-    "serialNumber": "DR0048",
+    "serialNumber": "DR-0048",
     "model": "Raven-M",
     "category": "Patrol",
     "base_location": "Central",
@@ -1165,7 +1165,7 @@
   },
   {
     "id": 50,
-    "serialNumber": "DR0050",
+    "serialNumber": "DR-0050",
     "model": "CargoBee",
     "category": "Search",
     "base_location": "East",
