@@ -1,6 +1,16 @@
 ﻿using System;
 using System.IO;
+namespace program;
+using DroneFleetDataProcessing.JsonSanitizer;
+using System.Text.Json;
 
-string baseDir = AppContext.BaseDirectory;
+class ProgramEx
+{
+    static void Main()
+    {
+        JsonSanitizerPipline jsonSanitizer = new JsonSanitizerPipline();
+        jsonSanitizer.jsonPipeline();
+    }
+    
+}
 
-string filePath = Path.Combine(baseDir, "myFile.txt");
