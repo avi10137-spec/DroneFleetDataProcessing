@@ -49,3 +49,18 @@ class FindPathDudi
         return FullPath;
     }
 }
+class ToFileWithAppend
+{
+    public void writeToFile(string path, string stringData)
+    {
+        string directoryPath = Path.GetDirectoryName(path);
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
+        using (StreamWriter writer = new StreamWriter(path, append: true))
+        {
+            writer.WriteLine(stringData);
+        }
+    }
+}
