@@ -22,15 +22,17 @@ namespace DroneFleetDataProcessing.JsonSanitizer
                 validate.FileIsNull(back);
                 Console.WriteLine(back);
             }
-            catch
+            catch (Exception ex) 
             {
-                validate.NoPermissionReade();
+                Console.WriteLine($"Error caught: {ex.Message}");
             }
-            //End day
-
-
-
-
+            var listi = new List<string>();
+            string nn = "aaaaaa";
+            listi.Add(nn);
+            IWriter writer = new ToFile();
+            string path1 = pathfile.GetPath("output", "out.json");
+            Console.WriteLine(path1);
+            writer.writeToFile(path1, listi);
         }
     }
 }
