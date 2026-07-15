@@ -11,14 +11,14 @@ namespace DroneFleetDataProcessing.JsonSanitizer
     {
         public void jsonPipeline()
         {
-            double minflightHours = 0;
-            double maxflightHours = 2500;
-            double minbatteryHealth = -1;
-            double maxbatteryHealth = 101;
-            double minMaxRangeKm = 1;
-            double maxMaxRangeKm = 150;
-            double minMissionsCompleted = 0;
-            double maxMissionsCompleted = 5000;
+            const double minflightHours = 0;
+            const double maxflightHours = 2500;
+            const double minbatteryHealth = -1;
+            const double maxbatteryHealth = 101;
+            const double minMaxRangeKm = 1;
+            const double maxMaxRangeKm = 150;
+            const double minMissionsCompleted = 0;
+            const double maxMissionsCompleted = 5000;
             int valid = 0;
             int inValid = 0;
             List<string> validDronesJson = new List<string>();
