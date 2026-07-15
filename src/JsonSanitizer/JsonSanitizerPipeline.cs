@@ -11,6 +11,7 @@ namespace DroneFleetDataProcessing.JsonSanitizer
     {
         public void jsonPipeline()
         {
+            Console.WriteLine("=== Drone Fleet Data Processing System ===");
             const double minflightHours = 0;
             const double maxflightHours = 2500;
             const double minbatteryHealth = -1;

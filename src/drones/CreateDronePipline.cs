@@ -9,7 +9,7 @@ namespace DroneFleetDataProcessing.src.drones
 {
     class CreateDronePipline
     {
-        static void Main()
+        public void dronePipeline()
         {
             //FindPath findpath = new FindPath();
             FindPathDudi foundPath = new FindPathDudi();
@@ -23,9 +23,8 @@ namespace DroneFleetDataProcessing.src.drones
             BestModel6 basemodel6 = new BestModel6();
             IWriter writer = new ToFile();
             ToFileWithAppend writerstring = new ToFileWithAppend();
-
+            Console.WriteLine($"Step 4: Reloading clean data drones_cleam.json Loaded records from clean dataset");
             string filePath = foundPath.FoundPath("drones_cleam.json", "output");
-            Console.WriteLine($"path is {filePath}");
             validate.FileIsExist(filePath);
 
             try
@@ -38,7 +37,7 @@ namespace DroneFleetDataProcessing.src.drones
                 {
                     PropertyNameCaseInsensitive = true
                 }) ?? new List<Drone>();
-                
+                Console.WriteLine($"Step 5: Performing analysis... Analysis completed successfully");
                 linqobjekt.ResultQuery(listdrones);
                 linqObjektTopHour.ResultQuery(listdrones);
                 List <string> listmodel = linkObjectUniqeModel.ResultQuery(listdrones);
