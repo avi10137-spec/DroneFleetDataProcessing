@@ -13,8 +13,8 @@ namespace DroneFleetDataProcessing.JsonSanitizer
         {
             double minflightHours = 0;
             double maxflightHours = 2500;
-            double minbatteryHealth = 0;
-            double maxbatteryHealth = 100;
+            double minbatteryHealth = -1;
+            double maxbatteryHealth = 101;
             double minMaxRangeKm = 1;
             double maxMaxRangeKm = 150;
             double minMissionsCompleted = 0;
@@ -37,6 +37,7 @@ namespace DroneFleetDataProcessing.JsonSanitizer
             IFieldsValidator format = new serialNumberFormat();
             IFieldsUniqueValidator fieldsUnique = new isAertainWord();
             IFieldsCertainRangeValidator isErtainRange = new isertainRange();
+            smallBatteryHealth smallBatteryHealth = new smallBatteryHealth();
             IWriter writer = new ToFile();
             string inputFileName = "drones_raw.json";
             string outputFileName = "drones_cleam.json";
@@ -59,41 +60,42 @@ namespace DroneFleetDataProcessing.JsonSanitizer
                         try
                         {
                             JsonElement idElement = drone.GetProperty("id");
-                            intAndPositive.RegularValidator(idElement.ToString());
-                            isUnique.UniqueValidator(idElement.ToString(), listId);
-                            listId.Add(idElement.ToString());
+                            intAndPositive.RegularValidator(idElement.ToString().Trim());
+                            isUnique.UniqueValidator(idElement.ToString().Trim(), listId);
+                            listId.Add(idElement.ToString().Trim());
 
                             JsonElement serialNumberElement = drone.GetProperty("serialNumber");
-                            emptyOrSpace.RegularValidator(serialNumberElement.ToString());
-                            isUnique.UniqueValidator(serialNumberElement.ToString(), listserialNumber);
-                            listserialNumber.Add(serialNumberElement.ToString());
-                            format.RegularValidator(serialNumberElement.ToString());
+                            emptyOrSpace.RegularValidator(serialNumberElement.ToString().Trim());
+                            isUnique.UniqueValidator(serialNumberElement.ToString().Trim(), listserialNumber);
+                            listserialNumber.Add(serialNumberElement.ToString().Trim());
+                            format.RegularValidator(serialNumberElement.ToString().Trim());
 
                             JsonElement modelElement = drone.GetProperty("model");
-                            fieldsUnique.UniqueValidator(modelElement.ToString(), model);
+                            fieldsUnique.UniqueValidator(modelElement.ToString().Trim(), model);
 
                             JsonElement categoryElement = drone.GetProperty("category");
-                            fieldsUnique.UniqueValidator(categoryElement.ToString(), category);
+                            fieldsUnique.UniqueValidator(categoryElement.ToString().Trim(), category);
 
                             JsonElement locationElement = drone.GetProperty("base_location");
-                            fieldsUnique.UniqueValidator(locationElement.ToString(), baseLocation);
+                            fieldsUnique.UniqueValidator(locationElement.ToString().Trim(), baseLocation);
 
                             JsonElement flightHoursElement = drone.GetProperty("flightHours");
-                            isErtainRange.ertainRangeValidator(flightHoursElement.ToString(), minflightHours, maxflightHours);
+                            isErtainRange.ertainRangeValidator(flightHoursElement.ToString().Trim(), minflightHours, maxflightHours);
 
                             JsonElement batteryHealthElement = drone.GetProperty("batteryHealth");
-                            intAndPositive.RegularValidator(batteryHealthElement.ToString());
-                            isErtainRange.ertainRangeValidator(batteryHealthElement.ToString(), minbatteryHealth, maxbatteryHealth);
+                            intAndPositive.RegularValidator(batteryHealthElement.ToString().Trim());
+                            isErtainRange.ertainRangeValidator(batteryHealthElement.ToString().Trim(), minbatteryHealth, maxbatteryHealth);
 
                             JsonElement maxRangeKmElement = drone.GetProperty("maxRangeKm");
-                            isErtainRange.ertainRangeValidator(maxRangeKmElement.ToString(), minMaxRangeKm, maxMaxRangeKm);
+                            isErtainRange.ertainRangeValidator(maxRangeKmElement.ToString().Trim(), minMaxRangeKm, maxMaxRangeKm);
 
                             JsonElement missionsCompletedElement = drone.GetProperty("missionsCompleted");
-                            intAndPositive.RegularValidator(missionsCompletedElement.ToString());
-                            isErtainRange.ertainRangeValidator(missionsCompletedElement.ToString(), minMissionsCompleted, maxMissionsCompleted);
+                            intAndPositive.RegularValidator(missionsCompletedElement.ToString().Trim());
+                            isErtainRange.ertainRangeValidator(missionsCompletedElement.ToString().Trim(), minMissionsCompleted, maxMissionsCompleted);
                             
                             JsonElement statusElement = drone.GetProperty("status");
-                            fieldsUnique.UniqueValidator(statusElement.ToString(), status);
+                            fieldsUnique.UniqueValidator(statusElement.ToString().Trim(), status);
+                            smallBatteryHealth.ValidsmallBatteryHealth(batteryHealthElement.ToString().Trim(), statusElement.ToString());
 
                             valid++;
                             validDronesJson.Add(drone.GetRawText());
@@ -103,17 +105,18 @@ namespace DroneFleetDataProcessing.JsonSanitizer
                         catch (Exception ex) 
                         {
                             inValid++;
-                            //Console.WriteLine($"Erorr caught: {ex.Message}");
+                            //Console.WriteLine($"Erorr caught: {ex.Message}: {drone.GetProperty("id")}");
                         }
                         
                     }
                 }
                 if(validDronesJson.Count > 1)
                 {
+                    validDronesJson.RemoveAt(validDronesJson.Count -1);
                     validDronesJson.Add("]");
                     Console.WriteLine($"Step 2: Validating data and creating clean dataset 'validDronesJson' Valid records: {valid} Rejected records: {inValid}");
                     writer.writeToFile(outputPath, validDronesJson);
-                    Console.WriteLine($"Step 3: Saving clean data {outputFileName} Clean data saved to: ");
+                    Console.WriteLine($"Step 3: Saving clean data {outputFileName} Clean data saved to: {outputPath}");
                 }
                 else
                 Console.WriteLine("There are no valid values.");
