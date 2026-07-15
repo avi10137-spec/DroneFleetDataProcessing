@@ -97,6 +97,7 @@ namespace DroneFleetDataProcessing.JsonSanitizer
 
                             valid++;
                             validDronesJson.Add(drone.GetRawText());
+                            validDronesJson.Add(",");
 
                         }
                         catch (Exception ex) 
