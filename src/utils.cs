@@ -30,7 +30,7 @@ class ToFile : IWriter
         {
             Directory.CreateDirectory(directoryPath);
         }
-        using (StreamWriter writer = new StreamWriter(path, append: true))
+        using (StreamWriter writer = new StreamWriter(path))
         {
             foreach (var line in data)
             {
@@ -39,4 +39,13 @@ class ToFile : IWriter
         }
     }
 }
-
+class FindPathDudi
+{
+    public string FoundPath(string filename, params string[] dir)
+    {
+        string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+        DirectoryInfo? projectDir = Directory.GetParent(baseDir).Parent.Parent.Parent;
+        string FullPath = Path.Combine(projectDir.FullName, Path.Combine(dir), filename);
+        return FullPath;
+    }
+}
