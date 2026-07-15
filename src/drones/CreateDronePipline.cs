@@ -16,8 +16,13 @@ namespace DroneFleetDataProcessing.src.drones
             JsonValidator validate = new JsonValidator();
             ILinqObjekt linqobjekt = new DronebyStatus();
             ILinqObjekt linqObjektTopHour = new DroneTopHour();
-            ILinqObjekt linkObjectUniqeModel = new UniqeModel();
-            ILinqObjekt linqTopAvgModel = new TopAvarageFlightHour();
+            IlinqString linkObjectUniqeModel = new UniqeModel();
+            IlinqString linqTopAvgModel = new TopAvarageFlightHour();
+            IIntLinq droneforbase4 = new DronesForBase4();
+            HealthForModel5 healthformodel = new HealthForModel5();
+            BestModel6 basemodel6 = new BestModel6();
+            IWriter writer = new ToFile();
+            ToFileWithAppend writerstring = new ToFileWithAppend();
 
             string filePath = foundPath.FoundPath("drones_cleam.json", "output");
             Console.WriteLine($"path is {filePath}");
@@ -28,17 +33,21 @@ namespace DroneFleetDataProcessing.src.drones
                 string back = File.ReadAllText(filePath);
                 validate.FileIsEmpty(back);
                 validate.FileIsNull(back);
-                //Console.WriteLine(back);
+               
                 List<Drone> listdrones = JsonSerializer.Deserialize<List<Drone>>(back, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 }) ?? new List<Drone>();
-                //var id64 = listdrones.Where(r => r.Id == 64).Select(x => x.Model).ToList();
-                //Console.WriteLine(id64);
+                
                 linqobjekt.ResultQuery(listdrones);
                 linqObjektTopHour.ResultQuery(listdrones);
-                linkObjectUniqeModel.ResultQuery(listdrones);
+                List <string> listmodel = linkObjectUniqeModel.ResultQuery(listdrones);
                 linqTopAvgModel.ResultQuery(listdrones);
+                droneforbase4.linqQuary(listdrones);
+                healthformodel.linqQuary(listdrones);
+                basemodel6.linqQuary(listdrones);
+                writer.writeToFile("analise_report.txt", listmodel);
+
                 
 
                 
