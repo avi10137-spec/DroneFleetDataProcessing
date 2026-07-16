@@ -3,23 +3,26 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-namespace DroneFleetDataProcessing.src
-{
-    class FindPath
-    {
-        public string GetPath(params string[] pathSegment)
-        {
-           string baseDir = AppContext.BaseDirectory;
-           string[] allPaths = new[] { baseDir }.Concat(pathSegment).ToArray();
-           string filePath = Path.Combine(allPaths);
-           Console.WriteLine($"path is {filePath}");
-           return filePath;
-        }
-    }
-}
+namespace DroneFleetDataProcessing.src;
+//class FindPath
+//{
+//    public string GetPath(params string[] pathSegment)
+//    {
+//        string baseDir = AppContext.BaseDirectory;
+//        string[] allPaths = new[] { baseDir }.Concat(pathSegment).ToArray();
+//        string filePath = Path.Combine(allPaths);
+//        Console.WriteLine($"path is {filePath}");
+//        return filePath;
+//    }
+//}
+
 interface IWriter
 {
     void writeToFile(string path, List<string> data);
+}
+interface IStringWriter
+{
+    void writeToFile(string path, string stringData);
 }
 class ToFile : IWriter
 {
@@ -39,7 +42,11 @@ class ToFile : IWriter
         }
     }
 }
-class FindPathDudi
+interface iFindPath
+{
+    string FoundPath(string filename, params string[] dir);
+}
+class FindPathInFile: iFindPath
 {
     public string FoundPath(string filename, params string[] dir)
     {
@@ -49,7 +56,7 @@ class FindPathDudi
         return FullPath;
     }
 }
-class ToFileWithAppend
+class ToFileWithAppend :IStringWriter
 {
     public void writeToFile(string path, string stringData)
     {

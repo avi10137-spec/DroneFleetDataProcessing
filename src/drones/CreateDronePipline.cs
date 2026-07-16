@@ -12,7 +12,11 @@ namespace DroneFleetDataProcessing.src.drones
         public void dronePipeline()
         {
             //FindPath findpath = new FindPath();
-            FindPathDudi foundPath = new FindPathDudi();
+            string inputFile = "drones_cleam.json";
+            string inputPath = "output";
+            string outputFile = "analysis_report.txt";
+            string outputPath = "output";
+            iFindPath foundPath = new FindPathInFile();
             JsonValidator validate = new JsonValidator();
             ILinqObjekt linqobjekt = new DronebyStatus();
             ILinqObjekt linqObjektTopHour = new DroneTopHour();
@@ -23,8 +27,8 @@ namespace DroneFleetDataProcessing.src.drones
             BestModel6 basemodel6 = new BestModel6();
             IWriter writer = new ToFile();
             ToFileWithAppend writerstring = new ToFileWithAppend();
-            Console.WriteLine($"Step 4: Reloading clean data drones_cleam.json Loaded records from clean dataset");
-            string filePath = foundPath.FoundPath("drones_cleam.json", "output");
+            Console.WriteLine($"Step 4: Reloading clean data {inputFile} Loaded records from clean dataset");
+            string filePath = foundPath.FoundPath(inputFile, inputPath);
             validate.FileIsExist(filePath);
 
             try
@@ -45,7 +49,7 @@ namespace DroneFleetDataProcessing.src.drones
                 droneforbase4.linqQuary(listdrones);
                 healthformodel.linqQuary(listdrones);
                 basemodel6.linqQuary(listdrones);
-                writer.writeToFile("analise_report.txt", listmodel);
+                writer.writeToFile(outputFile, listmodel);
 
                 
 
