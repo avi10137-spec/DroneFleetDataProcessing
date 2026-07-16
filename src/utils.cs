@@ -14,7 +14,7 @@ interface IStringWriter
 }
 interface IOutputWriter
 {
-    void writeToFile(string stringData);
+    void write(string stringData);
 }
 class ToFile : IWriter
 {
@@ -65,7 +65,7 @@ class ToFileWithAppend :IStringWriter
 }
 class ToTheTerminal: IOutputWriter //write to terminal
 {
-    public void writeToFile(string stringData)
+    public void write(string stringData)
     {
         Console.WriteLine(stringData);
     }
