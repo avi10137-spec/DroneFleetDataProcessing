@@ -11,7 +11,6 @@ namespace DroneFleetDataProcessing.JsonSanitizer
     {
         public void jsonPipeline()
         {
-            Console.WriteLine("=== Drone Fleet Data Processing System ===");
             const double minflightHours = 0;
             const double maxflightHours = 2500;
             const double minbatteryHealth = -1;
@@ -40,6 +39,7 @@ namespace DroneFleetDataProcessing.JsonSanitizer
             IFieldsCertainRangeValidator isErtainRange = new isertainRange();
             smallBatteryHealth smallBatteryHealth = new smallBatteryHealth();
             IWriter writer = new ToFile();
+            IOutputWriter consuleWrite = new ToTheTerminal();
             string inputFileName = "drones_raw.json";
             string outputFileName = "drones_cleam.json";
             string inputParentFolder = "input";
@@ -50,10 +50,11 @@ namespace DroneFleetDataProcessing.JsonSanitizer
             validate.FileIsExist(filePath);
             try
             {
+                consuleWrite.write("=== Drone Fleet Data Processing System ===");
                 string back = File.ReadAllText(filePath);
                 validate.FileIsEmpty(back);
                 validate.FileIsNull(back);
-                Console.WriteLine($"Step 1: Reading raw data {inputFileName} Read records from raw file");
+                consuleWrite.write($"Step 1: Reading raw data {inputFileName} Read records from raw file");
                 string jsonContent = File.ReadAllText(filePath);
                 using (JsonDocument doc = JsonDocument.Parse(jsonContent))
                 {
@@ -118,16 +119,16 @@ namespace DroneFleetDataProcessing.JsonSanitizer
                 {
                     validDronesJson.RemoveAt(validDronesJson.Count -1);
                     validDronesJson.Add("]");
-                    Console.WriteLine($"Step 2: Validating data and creating clean dataset {outputFileName} Valid records: {valid} Rejected records: {inValid}");
+                    consuleWrite.write($"Step 2: Validating data and creating clean dataset {outputFileName} Valid records: {valid} Rejected records: {inValid}");
                     writer.writeToFile(outputPath, validDronesJson);
-                    Console.WriteLine($"Step 3: Saving clean data {outputFileName} Clean data saved to: {outputPath}");
+                    consuleWrite.write($"Step 3: Saving clean data {outputFileName} Clean data saved to: {outputPath}");
                 }
                 else
-                Console.WriteLine("There are no valid values.");
+                    consuleWrite.write("There are no valid values.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error caught: {ex.Message}");
+                consuleWrite.write($"Error caught: {ex.Message}");
             }
             
         }
