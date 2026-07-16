@@ -1,5 +1,6 @@
 using System;
 namespace DroneFleetDataProcessing.JsonFieldsValidator;
+
 interface IFieldsValidator //Normal Validity Check
 {
     void RegularValidator(string field);
@@ -18,15 +19,15 @@ public class CustomeException : Exception//Custom error class
     {
     }
 }
-class isIntAndPositive: IFieldsValidator//Check if the number is integer and positive
+class isIntAndPositive : IFieldsValidator//Check if the number is integer and positive
 {
     public void RegularValidator(string field)
     {
-        if(!int.TryParse(field, out var value))
+        if (!int.TryParse(field, out var value))
         {
             throw new CustomeException($"The value is not an integer.");
         }
-        else if(value  < 0)
+        else if (value < 0)
         {
             throw new CustomeException($"The number is not an positive.");
         }
@@ -85,11 +86,11 @@ class isertainRange: IFieldsCertainRangeValidator//Check for the number is doubl
         {
             throw new CustomeException($"The value is not an decimal number.");
         }
-        if (double.Parse(field) <= min)
+        if (value < min)
         {
             throw new CustomeException($"The number is too small.");
         }
-        else if(double.Parse(field) >= max)
+        else if(value > max)
         {
             throw new CustomeException($"The number is too large.");
         }
@@ -99,7 +100,7 @@ class smallBatteryHealth//Check for low battery health status
 {
     public void ValidsmallBatteryHealth(string batteryHealth, string status)
     {
-        if(!double.TryParse(batteryHealth, out double value) && value < 20 && status == "Operational")
+        if(double.TryParse(batteryHealth, out double value) && value < 20 && status == "Operational")
         {
             throw new CustomeException($"The status cannot be Operational because the battery health is less than 20.");
         }
