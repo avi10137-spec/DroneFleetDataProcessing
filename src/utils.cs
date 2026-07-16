@@ -63,7 +63,7 @@ class ToFileWithAppend :IStringWriter
         }
     }
 }
-class ToTheTerminal: IOutputWriter
+class ToTheTerminal: IOutputWriter //write to terminal
 {
     public void writeToFile(string stringData)
     {
