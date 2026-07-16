@@ -43,10 +43,11 @@ namespace DroneFleetDataProcessing.src.drones
                 {
                     PropertyNameCaseInsensitive = true
                 }) ?? new List<Drone>();
+
                 consuleWrite.write($"Step 5: Performing analysis... Analysis completed successfully");
 
-                writeToTxt.writeToFile(fileOutputPath, "\nNON-OPERATIONAL DRONES");
                 var nonOperational = linqobjekt.ResultQuery(listdrones);
+                writeToTxt.writeToFile(fileOutputPath, "\nNON-OPERATIONAL DRONES");
                 foreach (Drone drone in nonOperational)
                 {
                     writeToTxt.writeToFile(fileOutputPath ,$"{drone.SerialNumber} | {drone.Model} | {drone.Base_location} | {drone.Status}");
@@ -106,8 +107,6 @@ namespace DroneFleetDataProcessing.src.drones
             {
                 consuleWrite.write("=== Process completed successfully! ===");
             }
-
-
         }
     }
 }

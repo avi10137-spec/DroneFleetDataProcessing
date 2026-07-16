@@ -4,11 +4,11 @@ using System.Text;
 using System.Linq;
 
 namespace DroneFleetDataProcessing.src.drones.summaryDrones;
-interface IIntLinq
+interface IIntLinq // Query interface
 {
     List<object> linqQuary(List<Drone> drones);
 }
-class DronesForBase4: IIntLinq
+class DronesForBase4: IIntLinq // Drone query by base
 {
     public List<object> linqQuary(List<Drone> drones)
     {
@@ -16,14 +16,9 @@ class DronesForBase4: IIntLinq
                                     .Select(g => new { Base = g.Key, Count = (double)g.Count() })
                                     .ToList<object>();
         return results;
-        //Console.WriteLine("\nDRONES BY BASE");
-        //foreach (var drone in dronesByBase)
-        //{
-        //    Console.WriteLine($"{drone.Key}: {drone.Value}");
-        //}
     }
 }
-class HealthForModel5
+class HealthForModel5 // Average battery health for each model
 {
     public Dictionary<string, double> linqQuary(List<Drone> drones)
     {
@@ -31,17 +26,15 @@ class HealthForModel5
             .GroupBy(d => d.Model)
             .ToDictionary(
                 g => g.Key ?? "Unknown",
-                g => g.Average(d => (double)d.BatteryHealth) // חישוב ממוצע הבריאות כערך
+                g => g.Average(d => (double)d.BatteryHealth)
             );
     }
 }
-class BestModel6
+class BestModel6 // The best model by tasks
 {
     public Drone? linqQuary(List<Drone> drones)
     {
         var BestModel = drones.OrderByDescending(n => n.MissionsCompleted).FirstOrDefault();
         return BestModel;
-        //Console.WriteLine("\nMODEL WITH HIGHEST TOTAL COMPLETED MISSIONS");
-        //Console.WriteLine($"Model: {BestModel.Model}\nTotal completed missions: {BestModel.MissionsCompleted}");
     }
 }

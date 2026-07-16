@@ -3,89 +3,61 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Channels;
 
-namespace DroneFleetDataProcessing.src.drones.summaryDrones
+namespace DroneFleetDataProcessing.src.drones.summaryDrones;
+
+    interface ILinqObjekt // Query interface returns a drone
 {
-    interface ILinqObjekt
+    List<Drone> ResultQuery(List<Drone> drones);
+}
+interface IlinqString // Query interface returns a string
+{
+    List<string> ResultQuery(List<Drone> drones);
+}
+class DronebyStatus : ILinqObjekt // Number of drones that are not operational
+{
+    public List<Drone> ResultQuery(List<Drone> drones)
     {
-         List<Drone> ResultQuery(List<Drone> drones); 
+        List<Drone> listByStatus = new List<Drone>();
+        listByStatus = drones.Where(dr => dr.Status != "Operational").ToList();
+        return listByStatus;
     }
-    interface IlinqString
+}
+class DroneTopHour : ILinqObjekt // The 5 drones with the highest flight hours
+{
+    public List<Drone> ResultQuery(List<Drone> drones)
     {
-        List<string> ResultQuery(List<Drone> drones);
+        List<Drone> listTopHour = new List<Drone>();
+        listTopHour = drones.OrderByDescending(dr => dr.FlightHours).Take(5).ToList();
+        return listTopHour;
     }
-    class DronebyStatus : ILinqObjekt
-    {
-        public List<Drone> ResultQuery(List<Drone> drones)
-        {
-            List<Drone> listByStatus = new List<Drone>();
-            listByStatus = drones.Where(dr => dr.Status != "Operational").ToList();
-            return listByStatus;
-            //Console.WriteLine("\n NON-OPERATIONAL DRONES");
-            //foreach(Drone drone in listByStatus)
-            //{
-            //    Console.WriteLine($"{drone.SerialNumber} | {drone.Model} | {drone.Base_location} | {drone.Status}");
-            //}
-            
-        }
-    }
-    class DroneTopHour : ILinqObjekt
-    {
-        public List<Drone> ResultQuery(List<Drone> drones)
-        {
-            List<Drone> listTopHour = new List<Drone>();
-            listTopHour = drones.OrderByDescending(dr => dr.FlightHours).Take(5).ToList();
-            return listTopHour;
-            //Console.WriteLine("\nTOP 5 DRONES BY FLIGHT HOURS");
-            //foreach (Drone drone in listTopHour)
-            //{
-            //    Console.WriteLine($"{drone.SerialNumber} | {drone.Model} | {drone.FlightHours}");
-            //}
-        }
-
-    }
-    class UniqeModel : IlinqString
-    {
-        public List<string> ResultQuery(List<Drone> drones)
-        {
-            List<string> ListUniqemodel = new List<string>();
-            ListUniqemodel = drones.Select(dr => dr.Model).Distinct().ToList();
-            return ListUniqemodel;
-            //Console.WriteLine("\nAVAILABLE DRONE MODELS");
-            //foreach (string model in ListUniqemodel)
-            //{
-            //    Console.WriteLine(model);
-            //}
-
-
-        }
-    }
-    class TopAvarageFlightHour : IlinqString
-    {
-        public List<string> ResultQuery(List<Drone> drones)
-        {
-            List<string> ListTopAvg = new List<string>();
-            ListTopAvg = drones
-                .GroupBy(dr => dr.Model) 
-                .Select(g => new
-                {
-                    Model = g.Key,
-                    AverageFlightHours = g.Average(dr => dr.FlightHours) 
-                })
-                .OrderByDescending(x => x.AverageFlightHours) 
-                .Take(3).Select(dr => dr.Model)
-                .ToList();
-                 return ListTopAvg;
-            //Console.WriteLine("\nMODELS WITH HIGHEST AVERAGE FLIGHT HOUR");
-            //foreach(string model in ListTopAvg)
-            //{
-            //    Console.WriteLine(model);
-            //}
-                    }
-         
-         }
-
-
-
-
 
 }
+class UniqeModel : IlinqString // Presents existing model
+{
+    public List<string> ResultQuery(List<Drone> drones)
+    {
+        List<string> ListUniqemodel = new List<string>();
+        ListUniqemodel = drones.Select(dr => dr.Model).Distinct().ToList();
+        return ListUniqemodel;
+    }
+}
+class TopAvarageFlightHour : IlinqString // The 3 drones with the highest average hourly rate
+{
+    public List<string> ResultQuery(List<Drone> drones)
+    {
+        List<string> ListTopAvg = new List<string>();
+        ListTopAvg = drones
+            .GroupBy(dr => dr.Model)
+            .Select(g => new
+            {
+                Model = g.Key,
+                AverageFlightHours = g.Average(dr => dr.FlightHours)
+            })
+            .OrderByDescending(x => x.AverageFlightHours)
+            .Take(3).Select(dr => dr.Model)
+            .ToList();
+        return ListTopAvg;
+    }
+}
+
+

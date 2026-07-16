@@ -16,10 +16,10 @@ namespace DroneFleetDataProcessing.src.drones
         public double MaxRangeKm { get; }
         public int MissionsCompleted { get; set; }
         public string Status { get; set; }
-        public Drone(int id,string serialnumber
-            ,string model,string category,string base_location,
-            double flighthours,int batteryhealth
-            ,double maxrangekm,int missionscompleted,string status)
+        public Drone(int id,string serialnumber,
+                     string model,string category,string base_location,
+                     double flighthours,int batteryhealth,
+                     double maxrangekm,int missionscompleted,string status)
         {
             Id = id;
             SerialNumber = serialnumber;
@@ -33,7 +33,5 @@ namespace DroneFleetDataProcessing.src.drones
             Status = status;
             
         }
-
-
     }
 }
