@@ -16,7 +16,7 @@ namespace DroneFleetDataProcessing.src.drones
             string inputPath = "output";
             string outputFile = "analysis_report.txt";
             string outputPath = "output";
-            iFindPath foundPath = new FindPathInFile();
+            IFindPath foundPath = new FindPathInFile();
             JsonValidator validate = new JsonValidator();
             ILinqObjekt linqobjekt = new DronebyStatus();
             ILinqObjekt linqObjektTopHour = new DroneTopHour();

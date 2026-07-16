@@ -32,7 +32,7 @@ namespace DroneFleetDataProcessing.JsonSanitizer
             List<string> baseLocation = new List<string>() { "North", "South", "Central", "East", "West", };
             List<string> status = new List<string>() { "Operational", "Maintenance", "Grounded", "Training" };
 
-            iFindPath pathfile = new FindPathInFile();
+            IFindPath pathfile = new FindPathInFile();
             JsonValidator validate = new JsonValidator();
             CustomeException customeException = new CustomeException("invalid input");
             IFieldsValidator intAndPositive = new isIntAndPositive();

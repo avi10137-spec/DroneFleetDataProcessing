@@ -4,19 +4,23 @@ using System.Text;
 using System.Linq;
 
 namespace DroneFleetDataProcessing.src;
-interface IWriter
+interface IWriter // List Writing Interface
 {
     void writeToFile(string path, List<string> data);
 }
-interface IStringWriter
+interface IStringWriter // String Writing Interface
 {
     void writeToFile(string path, string stringData);
 }
-interface IOutputWriter
+interface IOutputWriter // Terminal writing interface
 {
     void write(string stringData);
 }
-class ToFile : IWriter
+interface IFindPath // Pathfinding Interface
+{
+    string FoundPath(string filename, params string[] dir);
+}
+class ToFile : IWriter // Writing to a file
 {
     public void writeToFile(string path, List<string> data)
     {
@@ -34,11 +38,7 @@ class ToFile : IWriter
         }
     }
 }
-interface iFindPath
-{
-    string FoundPath(string filename, params string[] dir);
-}
-class FindPathInFile: iFindPath
+class FindPathInFile: IFindPath // Pathfinding
 {
     public string FoundPath(string filename, params string[] dir)
     {
@@ -48,7 +48,7 @@ class FindPathInFile: iFindPath
         return FullPath;
     }
 }
-class ToFileWithAppend :IStringWriter
+class ToFileWithAppend : IStringWriter // Writing to a file is being updated.
 {
     public void writeToFile(string path, string stringData)
     {
