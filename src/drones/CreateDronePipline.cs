@@ -12,7 +12,7 @@ namespace DroneFleetDataProcessing.src.drones
         public void dronePipeline()
         {
             //FindPath findpath = new FindPath();
-            string inputFile = "drones_cleam.json";
+            string inputFile = "drones_clean.json";
             string inputPath = "output";
             string outputFile = "analysis_report.txt";
             string outputPath = "output";
