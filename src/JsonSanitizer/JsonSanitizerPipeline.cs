@@ -19,15 +19,19 @@ namespace DroneFleetDataProcessing.JsonSanitizer
             const double maxMaxRangeKm = 150;
             const double minMissionsCompleted = 0;
             const double maxMissionsCompleted = 5000;
+
             int valid = 0;
             int inValid = 0;
+
             List<string> validDronesJson = new List<string>();
             List<string> listId = new List<string>();
             List<string> listserialNumber = new List<string>();
+
             List<string> model = new List<string>() { "Falcon-X", "Raven-M", "SkyEye-2", "CargoBee", "Storm-4", "Scout-Lite" };
             List<string> category = new List<string>() { "Recon", "Patrol", "Mapping", "Delivery", "Search", };
             List<string> baseLocation = new List<string>() { "North", "South", "Central", "East", "West", };
             List<string> status = new List<string>() { "Operational", "Maintenance", "Grounded", "Training" };
+
             iFindPath pathfile = new FindPathInFile();
             JsonValidator validate = new JsonValidator();
             CustomeException customeException = new CustomeException("invalid input");
@@ -38,9 +42,11 @@ namespace DroneFleetDataProcessing.JsonSanitizer
             IFieldsUniqueValidator fieldsUnique = new isAertainWord();
             IFieldsCertainRangeValidator isErtainRange = new isertainRange();
             smallBatteryHealth smallBatteryHealth = new smallBatteryHealth();
+
             IWriter writer = new ToFile();
             IStringWriter writeToTxt = new ToFileWithAppend();
             IOutputWriter consuleWrite = new ToTheTerminal();
+
             string inputFileName = "drones_raw.json";
             string outputFileName = "drones_clean.json";
             string outputTxtFile = "analysis_report.txt";
@@ -135,7 +141,6 @@ namespace DroneFleetDataProcessing.JsonSanitizer
             {
                 consuleWrite.write($"Error caught: {ex.Message}");
             }
-            
         }
     }
 }
