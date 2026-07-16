@@ -25,10 +25,12 @@ namespace DroneFleetDataProcessing.src.drones
             IIntLinq droneforbase4 = new DronesForBase4();
             HealthForModel5 healthformodel = new HealthForModel5();
             BestModel6 basemodel6 = new BestModel6();
-            IWriter writer = new ToFile();
+            IOutputWriter consuleWrite = new ToTheTerminal();
             ToFileWithAppend writerstring = new ToFileWithAppend();
+            IStringWriter writeToTxt = new ToFileWithAppend();
             Console.WriteLine($"Step 4: Reloading clean data {inputFile} Loaded records from clean dataset");
             string filePath = foundPath.FoundPath(inputFile, inputPath);
+            string fileOutputPath = foundPath.FoundPath(outputFile, outputPath);
             validate.FileIsExist(filePath);
 
             try
@@ -41,24 +43,68 @@ namespace DroneFleetDataProcessing.src.drones
                 {
                     PropertyNameCaseInsensitive = true
                 }) ?? new List<Drone>();
-                Console.WriteLine($"Step 5: Performing analysis... Analysis completed successfully");
-                linqobjekt.ResultQuery(listdrones);
-                linqObjektTopHour.ResultQuery(listdrones);
-                List <string> listmodel = linkObjectUniqeModel.ResultQuery(listdrones);
-                linqTopAvgModel.ResultQuery(listdrones);
-                droneforbase4.linqQuary(listdrones);
-                healthformodel.linqQuary(listdrones);
-                basemodel6.linqQuary(listdrones);
-                writer.writeToFile(outputFile, listmodel);
+                consuleWrite.write($"Step 5: Performing analysis... Analysis completed successfully");
 
-                
+                writeToTxt.writeToFile(fileOutputPath, "\nNON-OPERATIONAL DRONES");
+                var nonOperational = linqobjekt.ResultQuery(listdrones);
+                foreach (Drone drone in nonOperational)
+                {
+                    writeToTxt.writeToFile(fileOutputPath ,$"{drone.SerialNumber} | {drone.Model} | {drone.Base_location} | {drone.Status}");
+                }
 
-                
+                var listTopHour = linqObjektTopHour.ResultQuery(listdrones);
+                writeToTxt.writeToFile(fileOutputPath, "\nTOP 5 DRONES BY FLIGHT HOURS");
+                int numDroneToPrint = 1;
+                foreach (Drone drone in listTopHour)
+                {
+                    writeToTxt.writeToFile(fileOutputPath, $"{numDroneToPrint}. {drone.SerialNumber} | {drone.Model} | {drone.FlightHours}");
+                    numDroneToPrint ++;
+                }
 
+                var listmodel = linkObjectUniqeModel.ResultQuery(listdrones);
+                writeToTxt.writeToFile(fileOutputPath, "\nAVAILABLE DRONE MODELS");
+                foreach (string model in listmodel)
+                {
+                    writeToTxt.writeToFile(fileOutputPath, model);
+                }
+
+                var droneforbase = droneforbase4.linqQuary(listdrones);
+                writeToTxt.writeToFile(fileOutputPath, "\nDRONES BY BASE");
+                foreach (dynamic drone in droneforbase)
+                {
+                    writeToTxt.writeToFile(fileOutputPath, $"{drone.Base}: {drone.Count}");
+                }
+
+                var healthBattery = healthformodel.linqQuary(listdrones);
+                writeToTxt.writeToFile(fileOutputPath, "\nAVERAGE BATTERY HEALTH BY MODEL");
+                foreach (var item in healthBattery)
+                {
+                    writeToTxt.writeToFile(fileOutputPath, $"{item.Key}: {item.Value:F2}");
+                }
+
+                var higgestModelWithComplectedMissions = basemodel6.linqQuary(listdrones);
+                writeToTxt.writeToFile(fileOutputPath, "\nMODEL WITH HIGHEST TOTAL COMPLETED MISSIONS");
+                if (higgestModelWithComplectedMissions != null)
+                {
+                    writeToTxt.writeToFile(fileOutputPath, $"Model: {higgestModelWithComplectedMissions.Model}\nTotal completed missions: {higgestModelWithComplectedMissions.MissionsCompleted}");
+                }
+
+                var TopAvgModel = linqTopAvgModel.ResultQuery(listdrones);
+                writeToTxt.writeToFile(fileOutputPath, "\nTOP 3 MODELS WITH HIGHEST AVERAGE FLIGHT HOURS");
+                int numDroneToPrint2 = 1;
+                foreach (string model in TopAvgModel)
+                {
+                    writeToTxt.writeToFile(fileOutputPath, $"{numDroneToPrint2}. {model}");
+                }
+                consuleWrite.write($"Step 6: Generating report... Report generated successfully: {outputPath}");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error caught: {ex.Message}");
+            }
+            finally
+            {
+                consuleWrite.write("=== Process completed successfully! ===");
             }
 
 

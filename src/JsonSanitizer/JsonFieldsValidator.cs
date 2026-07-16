@@ -1,5 +1,6 @@
 using System;
 namespace DroneFleetDataProcessing.JsonFieldsValidator;
+
 interface IFieldsValidator //Normal Validity Check
 {
     void RegularValidator(string field);
@@ -18,15 +19,15 @@ public class CustomeException : Exception//Custom error class
     {
     }
 }
-class isIntAndPositive: IFieldsValidator//Check if the number is integer and positive
+class isIntAndPositive : IFieldsValidator//Check if the number is integer and positive
 {
     public void RegularValidator(string field)
     {
-        if(!int.TryParse(field, out var value))
+        if (!int.TryParse(field, out var value))
         {
             throw new CustomeException($"The value is not an integer.");
         }
-        else if(value  < 0)
+        else if (value < 0)
         {
             throw new CustomeException($"The number is not an positive.");
         }

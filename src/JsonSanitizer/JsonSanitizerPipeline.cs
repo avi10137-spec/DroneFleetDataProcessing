@@ -39,14 +39,17 @@ namespace DroneFleetDataProcessing.JsonSanitizer
             IFieldsCertainRangeValidator isErtainRange = new isertainRange();
             smallBatteryHealth smallBatteryHealth = new smallBatteryHealth();
             IWriter writer = new ToFile();
+            IStringWriter writeToTxt = new ToFileWithAppend();
             IOutputWriter consuleWrite = new ToTheTerminal();
             string inputFileName = "drones_raw.json";
             string outputFileName = "drones_clean.json";
+            string outputTxtFile = "analysis_report.txt";
             string inputParentFolder = "input";
             string inputChildFolder = "raw";
             string outputFolder = "output";
             string filePath = pathfile.FoundPath(inputFileName, inputParentFolder, inputChildFolder);
             string outputPath = pathfile.FoundPath(outputFileName, outputFolder);
+            string outputTxtPath = pathfile.FoundPath(outputTxtFile, outputFolder);
             validate.FileIsExist(filePath);
             try
             {
@@ -122,6 +125,8 @@ namespace DroneFleetDataProcessing.JsonSanitizer
                     consuleWrite.write($"Step 2: Validating data and creating clean dataset {outputFileName} Valid records: {valid} Rejected records: {inValid}");
                     writer.writeToFile(outputPath, validDronesJson);
                     consuleWrite.write($"Step 3: Saving clean data {outputFileName} Clean data saved to: {outputPath}");
+                    writeToTxt.writeToFile(outputTxtPath, "DRONE FLEET ANALYSIS REPORT\n");
+                    writeToTxt.writeToFile(outputTxtPath, $"PROCESSING SUMMARY\nTotal raw records: {valid+inValid}\nValid records: {valid}\nRejected records: {inValid}");
                 }
                 else
                     consuleWrite.write("There are no valid values.");

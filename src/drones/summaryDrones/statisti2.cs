@@ -25,16 +25,19 @@ class DronesForBase4: IIntLinq
 }
 class HealthForModel5
 {
-    public object linqQuary(List<Drone> drones)
+    public Dictionary<string, double> linqQuary(List<Drone> drones)
     {
-        var healthByModel = drones.GroupBy(n => n.Model).Select(g => new { model = g.Key, count = g.Count()}).OrderByDescending(g => g.count).FirstOrDefault();
-        //Console.WriteLine($"Model: {healthByModel.model}\nCount: {healthByModel.Count}");
-        return healthByModel;
+        return drones
+            .GroupBy(d => d.Model)
+            .ToDictionary(
+                g => g.Key ?? "Unknown",
+                g => g.Average(d => (double)d.BatteryHealth) // חישוב ממוצע הבריאות כערך
+            );
     }
 }
 class BestModel6
 {
-    public object linqQuary(List<Drone> drones)
+    public Drone? linqQuary(List<Drone> drones)
     {
         var BestModel = drones.OrderByDescending(n => n.MissionsCompleted).FirstOrDefault();
         return BestModel;
