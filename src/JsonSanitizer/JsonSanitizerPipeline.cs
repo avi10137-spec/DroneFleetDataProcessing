@@ -41,7 +41,7 @@ namespace DroneFleetDataProcessing.JsonSanitizer
             IWriter writer = new ToFile();
             IOutputWriter consuleWrite = new ToTheTerminal();
             string inputFileName = "drones_raw.json";
-            string outputFileName = "drones_cleam.json";
+            string outputFileName = "drones_clean.json";
             string inputParentFolder = "input";
             string inputChildFolder = "raw";
             string outputFolder = "output";
