@@ -4,18 +4,6 @@ using System.Text;
 using System.Linq;
 
 namespace DroneFleetDataProcessing.src;
-//class FindPath
-//{
-//    public string GetPath(params string[] pathSegment)
-//    {
-//        string baseDir = AppContext.BaseDirectory;
-//        string[] allPaths = new[] { baseDir }.Concat(pathSegment).ToArray();
-//        string filePath = Path.Combine(allPaths);
-//        Console.WriteLine($"path is {filePath}");
-//        return filePath;
-//    }
-//}
-
 interface IWriter
 {
     void writeToFile(string path, List<string> data);
@@ -23,6 +11,10 @@ interface IWriter
 interface IStringWriter
 {
     void writeToFile(string path, string stringData);
+}
+interface IOutputWriter
+{
+    void writeToFile(string stringData);
 }
 class ToFile : IWriter
 {
@@ -69,5 +61,12 @@ class ToFileWithAppend :IStringWriter
         {
             writer.WriteLine(stringData);
         }
+    }
+}
+class ToTheTerminal: IOutputWriter
+{
+    public void writeToFile(string stringData)
+    {
+        Console.WriteLine(stringData);
     }
 }
