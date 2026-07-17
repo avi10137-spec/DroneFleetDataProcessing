@@ -1,10 +1,11 @@
-﻿using DroneFleetDataProcessing.JsonFieldsValidator;
-using DroneFleetDataProcessing.src;
+﻿using DroneFleetDataProcessing.src;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.Json;
+using DroneFleetDataProcessing.src.JsonSanitizer.JsonFieldsValidator.filelds_interface;
+using DroneFleetDataProcessing.src.JsonSanitizer.JsonFieldsValidator.validators;
 namespace DroneFleetDataProcessing.JsonSanitizer
 {
     internal class JsonSanitizerPipline
