@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Json;
+using DroneFleetDataProcessing.src.JsonSanitizer.JsonValidator;
 namespace DroneFleetDataProcessing.src.drones
 {
     class CreateDronePipline
     {
         public void dronePipeline()
         {
-            //FindPath findpath = new FindPath();
             string inputFile = "drones_clean.json";
             string inputPath = "output";
             string outputFile = "analysis_report.txt";
