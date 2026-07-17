@@ -6,6 +6,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Json;
 using DroneFleetDataProcessing.src.JsonSanitizer.JsonValidator;
+using DroneFleetDataProcessing.src.drones.summaryDrones.summary_interfces;
+using DroneFleetDataProcessing.src.drones.summaryDrones.linq;
 namespace DroneFleetDataProcessing.src.drones
 {
     class CreateDronePipline
