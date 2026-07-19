@@ -15,8 +15,8 @@ internal class JsonSanitizerPipline
     {
         const double minflightHours = 0;
         const double maxflightHours = 2500;
-        const double minbatteryHealth = -1;
-        const double maxbatteryHealth = 101;
+        const double minBatteryHealth = 0;
+        const double maxBatteryHealth = 100;
         const double minMaxRangeKm = 1;
         const double maxMaxRangeKm = 150;
         const double minMissionsCompleted = 0;
@@ -100,7 +100,7 @@ internal class JsonSanitizerPipline
 
                         JsonElement batteryHealthElement = drone.GetProperty("batteryHealth");
                         intAndPositive.RegularValidator(batteryHealthElement.ToString().Trim());
-                        isErtainRange.ertainRangeValidator(batteryHealthElement.ToString().Trim(), minbatteryHealth, maxbatteryHealth);
+                        isErtainRange.ertainRangeValidator(batteryHealthElement.ToString().Trim(), minBatteryHealth, maxBatteryHealth);
 
                         JsonElement maxRangeKmElement = drone.GetProperty("maxRangeKm");
                         isErtainRange.ertainRangeValidator(maxRangeKmElement.ToString().Trim(), minMaxRangeKm, maxMaxRangeKm);
